@@ -5,7 +5,7 @@ import image
 
 
 def main():
-    img = image.get_image("new.png")
+    img = image.get_image("bmpnew.bmp")
     img_pixels = image.get_image_pixels(img)
     print(img_pixels)
 

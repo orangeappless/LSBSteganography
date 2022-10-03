@@ -46,7 +46,7 @@ def hide(cover_image_source, data_source, output_name):
     img = image.get_image(cover_image_source)
     img_width, img_height = image.get_image_dimensions(img)
     cover_img_pixels = image.get_image_pixels(img)
-    total_pixels = image.get_num_pixels(cover_img_pixels)
+    total_pixels = image.get_num_pixels(cover_img_pixels, img.mode)
 
     # Get user input
     file_input = data_source
@@ -67,9 +67,9 @@ def hide(cover_image_source, data_source, output_name):
     # Convert to binary representation
     bin_data = ''.join([format(i, "08b") for i in data])
     data_length = len(bin_data)
-    
+
+    print("Total pixels in image:", total_pixels)
     print("Data length: ", data_length)
-    print("Total pixels:", total_pixels)
 
     if data_length > total_pixels:
         print("Need a larger image")
@@ -77,14 +77,20 @@ def hide(cover_image_source, data_source, output_name):
     else:
         utils.hide_data(bin_data, data_length, total_pixels, cover_img_pixels, img_height, img_width, img, output_name)
 
+    print("Data hiding completed.")
+    print("Output file:", output_name)
+
 
 def extract(image_source, output_name):
     # Get image stats
     img = image.get_image(image_source)
     image_pixels = image.get_image_pixels(img)
-    total_pixels = image.get_num_pixels(image_pixels)
+    total_pixels = image.get_num_pixels(image_pixels, img.mode)
 
     utils.extract_data(total_pixels, image_pixels, output_name)
+
+    print("Data extraction complete.")
+    print("Output file:", output_name)
 
 
 def main():
@@ -103,7 +109,7 @@ def main():
         extract(source_img, output_img_name)
 
     else:
-        print("Invalid option")
+        print("Invalid option. Specify either 'hide' or 'extract' for --mode")
         sys.exit()
 
 
